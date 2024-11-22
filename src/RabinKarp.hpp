@@ -3,8 +3,17 @@
 
 class RabinKarp {
 public:
+    /**
+     * Rabin Karp constructor
+     *
+     * @param base Initial base multiplier for positional checking
+     * @param mod (use prime number) to prevent integer overflow
+     */
     RabinKarp(int base, int mod);
 
+    /**
+     * Returns an iterator of the first instance
+    */
     std::string::const_iterator getFirstInstanceOf(const std::string& pattern, const std::string& value) const;
 
 private:
