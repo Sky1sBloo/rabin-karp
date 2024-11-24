@@ -13,7 +13,7 @@ public:
 
     /**
      * Returns an iterator of the first instance
-    */
+     */
     std::string::const_iterator getFirstInstanceOf(const std::string& pattern, const std::string& value) const;
 
 private:
@@ -22,5 +22,8 @@ private:
 
     char hashedChar(char c) const noexcept;
 
-    int rollingHash(const std::string& value) const;
+    /**
+     * Returns a rolling hash on string based on its length
+    */
+    int rollingHash(const std::string& value, int length = -1) const;
 };

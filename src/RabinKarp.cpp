@@ -12,11 +12,14 @@ char RabinKarp::hashedChar(char c) const noexcept
     return c - ' ' + 1;
 }
 
-int RabinKarp::rollingHash(const std::string& value) const
+int RabinKarp::rollingHash(const std::string& value, int length) const
 {
+    if (length < 0) {
+        length = value.length();
+    }
     int output = 0;
-    for (int i = 0; i < value.length(); i++) {
-        output += hashedChar(value[i]) * std::pow(_base, value.length() - 1 - i);
+    for (int i = 0; i < length; i++) {
+        output += hashedChar(value[i]) * std::pow(_base, length - 1 - i);
     }
     return output % _mod;
 }
@@ -31,7 +34,7 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
     }
 
     int targetHash = rollingHash(pattern);
-    int newHash = rollingHash(value.substr(0, pattern.length()));
+    int newHash = rollingHash(value, pattern.length());
     if (newHash == targetHash) {
         return value.cbegin();
     }
