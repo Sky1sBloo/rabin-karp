@@ -57,3 +57,38 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
     }
     return value.cend();
 }
+std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pattern, const std::string& value, std::vector<int>& hashComparisons) const
+{
+    if (value.length() < pattern.length() || value.empty() || pattern.empty()) {
+        return value.cend();
+    }
+    if (value == pattern) {
+        return value.cbegin();
+    }
+
+    int targetHash = rollingHash(pattern);
+    int newHash = rollingHash(value, pattern.length());
+    hashComparisons.push_back(newHash);
+    if (newHash == targetHash) {
+        return value.cbegin();
+    }
+
+    int power = std::pow(_base, pattern.length() - 1);
+
+    for (int i = 1; i < value.length(); i++) {
+        if (i <= value.length() - pattern.length()) {
+            int prevCharHash = hashedChar(value[i - 1]) * power % _mod;
+            int prevCharDifference = ((newHash - prevCharHash + _mod) * _base) % _mod;
+            newHash = (prevCharDifference + hashedChar(value[i + pattern.length() - 1])) % _mod;
+            hashComparisons.push_back(newHash);
+        } else {
+            break;
+        }
+        if (newHash == targetHash) {
+            if (value.substr(i, pattern.length()) == pattern) {
+                return value.cbegin() + i;
+            }
+        }
+    }
+    return value.cend();
+}
