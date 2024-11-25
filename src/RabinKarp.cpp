@@ -36,8 +36,11 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
     const int windowLength = pattern.length();
     const int targetHash = rollingHash(pattern);
     int newHash = rollingHash(value, windowLength);
+
     if (newHash == targetHash) {
-        return value.cbegin();
+        if (value.substr(0, windowLength) == pattern) {
+            return value.cbegin();
+        }
     }
 
     const int power = std::pow(_base, pattern.length() - 1);
@@ -46,7 +49,7 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
         if (i <= value.length() - windowLength) {
             int prevCharHash = hashedChar(value[i - 1]) * power % _mod;
             int prevCharDifference = ((newHash - prevCharHash + _mod) * _base) % _mod;
-            newHash = (prevCharDifference + hashedChar(value[i + windowLength- 1])) % _mod;
+            newHash = (prevCharDifference + hashedChar(value[i + windowLength - 1])) % _mod;
         } else {
             break;
         }
@@ -67,14 +70,17 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
         return value.cbegin();
     }
 
+    const int windowLength = pattern.length();
     const int targetHash = rollingHash(pattern);
-    int newHash = rollingHash(value, pattern.length());
+    int newHash = rollingHash(value, windowLength);
     hashComparisons.push_back(newHash);
+
     if (newHash == targetHash) {
-        return value.cbegin();
+        if (value.substr(0, windowLength) == pattern) {
+            return value.cbegin();
+        }
     }
 
-    const int windowLength = pattern.length();
     const int power = std::pow(_base, pattern.length() - 1);
 
     for (int i = 1; i < value.length(); i++) {
