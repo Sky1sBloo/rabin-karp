@@ -1,5 +1,6 @@
 #include "RabinKarp.hpp"
 #include <array>
+#include <iomanip>
 #include <iostream>
 #include <string>
 
@@ -42,7 +43,7 @@ int main()
 
     const std::array<StringMatcher, 13> testCases = { { { "xxxabcddd", "abc", true, 3 },
         { "hello", "idot", false },
-        { "together", "ther", true, 4},
+        { "together", "ther", true, 4 },
         { "", "woo", false },
         { "woont", "", false },
         { "short", "a very long value", false },
@@ -56,6 +57,7 @@ int main()
 
     RabinKarp patternFinder(283, 113);
 
+    std::cout << "Starting edge case tests...\n";
     try {
         for (const StringMatcher& strMatch : testCases) {
             const auto& it = patternFinder.getFirstInstanceOf(strMatch.pattern, strMatch.text);
@@ -74,5 +76,16 @@ int main()
         std::cerr << "Failed test: " << ex.what() << std::endl;
         return 1;
     }
-    std::cout << "Success" << std::endl;
+    std::cout << "Edge Case Test: Success\n" << "Starting test: Hash display comparisons..." << '\n';
+
+    std::vector<int> hashComparisons;
+    const std::string text = "the quick brown fox";
+    const std::string pattern = "fox";
+    std::cout << "Hash comparison in text: \"" << text << "\", find \"" << pattern << "\"\n";
+    const auto& it = patternFinder.getFirstInstanceOf(pattern, text, hashComparisons);
+    int patternHash = patternFinder.rollingHash(pattern);
+
+    for (int hash : hashComparisons) {
+        std::cout << std::setw(3) << hash << " == " << std::setw(3) << patternHash << '\n';
+    }
 }
