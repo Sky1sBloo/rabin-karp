@@ -33,13 +33,13 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
         return value.cbegin();
     }
 
-    int targetHash = rollingHash(pattern);
+    const int targetHash = rollingHash(pattern);
     int newHash = rollingHash(value, pattern.length());
     if (newHash == targetHash) {
         return value.cbegin();
     }
 
-    int power = std::pow(_base, pattern.length() - 1);
+    const int power = std::pow(_base, pattern.length() - 1);
 
     for (int i = 1; i < value.length(); i++) {
         if (i <= value.length() - pattern.length()) {
@@ -66,14 +66,14 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
         return value.cbegin();
     }
 
-    int targetHash = rollingHash(pattern);
+    const int targetHash = rollingHash(pattern);
     int newHash = rollingHash(value, pattern.length());
     hashComparisons.push_back(newHash);
     if (newHash == targetHash) {
         return value.cbegin();
     }
 
-    int power = std::pow(_base, pattern.length() - 1);
+    const int power = std::pow(_base, pattern.length() - 1);
 
     for (int i = 1; i < value.length(); i++) {
         if (i <= value.length() - pattern.length()) {
