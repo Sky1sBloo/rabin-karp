@@ -51,8 +51,11 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
         } else {
             break;
         }
-        if (newHash == targetHash && std::equal(value.begin() + i, value.begin() + i + windowLength, pattern.begin())) {
-            return value.cbegin() + i;
+        if (newHash == targetHash) {
+            std::string::const_iterator valuePosition = value.cbegin() + i;
+            if (std::equal(valuePosition, valuePosition + windowLength, pattern.cbegin())) {
+                return value.cbegin() + i;
+            }
         }
     }
     return value.cend();
@@ -86,8 +89,12 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
         } else {
             break;
         }
-        if (newHash == targetHash && std::equal(value.begin() + i, value.begin() + i + windowLength, pattern.begin())) {
-            return value.cbegin() + i;
+
+        if (newHash == targetHash) {
+            std::string::const_iterator valuePosition = value.cbegin() + i;
+            if (std::equal(valuePosition, valuePosition + windowLength, pattern.cbegin())) {
+                return value.cbegin() + i;
+            }
         }
     }
     return value.cend();
