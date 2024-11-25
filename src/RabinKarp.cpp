@@ -9,7 +9,7 @@ RabinKarp::RabinKarp(int base, int mod)
 
 char RabinKarp::hashedChar(char c) const noexcept
 {
-    return c - ' ' + 1;
+    return c - ' ';
 }
 
 int RabinKarp::rollingHash(const std::string& value, int length) const
