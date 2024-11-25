@@ -37,10 +37,8 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
     const int targetHash = rollingHash(pattern);
     int newHash = rollingHash(value, windowLength);
 
-    if (newHash == targetHash) {
-        if (value.substr(0, windowLength) == pattern) {
-            return value.cbegin();
-        }
+    if (newHash == targetHash && std::equal(value.begin(), value.begin() + windowLength, pattern.begin())) {
+        return value.cbegin();
     }
 
     const int power = std::pow(_base, pattern.length() - 1);
@@ -53,10 +51,8 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
         } else {
             break;
         }
-        if (newHash == targetHash) {
-            if (value.substr(i, windowLength) == pattern) {
-                return value.cbegin() + i;
-            }
+        if (newHash == targetHash && std::equal(value.begin() + i, value.begin() + i + windowLength, pattern.begin())) {
+            return value.cbegin() + i;
         }
     }
     return value.cend();
@@ -75,10 +71,8 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
     int newHash = rollingHash(value, windowLength);
     hashComparisons.push_back(newHash);
 
-    if (newHash == targetHash) {
-        if (value.substr(0, windowLength) == pattern) {
-            return value.cbegin();
-        }
+    if (newHash == targetHash && std::equal(value.begin(), value.begin() + windowLength, pattern.begin())) {
+        return value.cbegin();
     }
 
     const int power = std::pow(_base, pattern.length() - 1);
@@ -92,10 +86,8 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
         } else {
             break;
         }
-        if (newHash == targetHash) {
-            if (value.substr(i, windowLength) == pattern) {
-                return value.cbegin() + i;
-            }
+        if (newHash == targetHash && std::equal(value.begin() + i, value.begin() + i + windowLength, pattern.begin())) {
+            return value.cbegin() + i;
         }
     }
     return value.cend();
