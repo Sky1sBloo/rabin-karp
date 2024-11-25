@@ -33,8 +33,9 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
         return value.cbegin();
     }
 
+    const int windowLength = pattern.length();
     const int targetHash = rollingHash(pattern);
-    int newHash = rollingHash(value, pattern.length());
+    int newHash = rollingHash(value, windowLength);
     if (newHash == targetHash) {
         return value.cbegin();
     }
@@ -42,15 +43,15 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
     const int power = std::pow(_base, pattern.length() - 1);
 
     for (int i = 1; i < value.length(); i++) {
-        if (i <= value.length() - pattern.length()) {
+        if (i <= value.length() - windowLength) {
             int prevCharHash = hashedChar(value[i - 1]) * power % _mod;
             int prevCharDifference = ((newHash - prevCharHash + _mod) * _base) % _mod;
-            newHash = (prevCharDifference + hashedChar(value[i + pattern.length() - 1])) % _mod;
+            newHash = (prevCharDifference + hashedChar(value[i + windowLength- 1])) % _mod;
         } else {
             break;
         }
         if (newHash == targetHash) {
-            if (value.substr(i, pattern.length()) == pattern) {
+            if (value.substr(i, windowLength) == pattern) {
                 return value.cbegin() + i;
             }
         }
@@ -73,19 +74,20 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
         return value.cbegin();
     }
 
+    const int windowLength = pattern.length();
     const int power = std::pow(_base, pattern.length() - 1);
 
     for (int i = 1; i < value.length(); i++) {
-        if (i <= value.length() - pattern.length()) {
+        if (i <= value.length() - windowLength) {
             int prevCharHash = hashedChar(value[i - 1]) * power % _mod;
             int prevCharDifference = ((newHash - prevCharHash + _mod) * _base) % _mod;
-            newHash = (prevCharDifference + hashedChar(value[i + pattern.length() - 1])) % _mod;
+            newHash = (prevCharDifference + hashedChar(value[i + windowLength - 1])) % _mod;
             hashComparisons.push_back(newHash);
         } else {
             break;
         }
         if (newHash == targetHash) {
-            if (value.substr(i, pattern.length()) == pattern) {
+            if (value.substr(i, windowLength) == pattern) {
                 return value.cbegin() + i;
             }
         }
