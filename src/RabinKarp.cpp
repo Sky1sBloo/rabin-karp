@@ -43,14 +43,10 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
 
     const int power = std::pow(_base, pattern.length() - 1);
 
-    for (int i = 1; i < value.length(); i++) {
-        if (i <= value.length() - windowLength) {
-            int prevCharHash = hashedChar(value[i - 1]) * power % _mod;
-            int prevCharDifference = ((newHash - prevCharHash + _mod) * _base) % _mod;
-            newHash = (prevCharDifference + hashedChar(value[i + windowLength - 1])) % _mod;
-        } else {
-            break;
-        }
+    for (int i = 1; i <= value.length() - windowLength; i++) {
+        int prevCharHash = hashedChar(value[i - 1]) * power % _mod;
+        int prevCharDifference = ((newHash - prevCharHash + _mod) * _base) % _mod;
+        newHash = (prevCharDifference + hashedChar(value[i + windowLength - 1])) % _mod;
         if (newHash == targetHash) {
             std::string::const_iterator valuePosition = value.cbegin() + i;
             if (std::equal(valuePosition, valuePosition + windowLength, pattern.cbegin())) {
@@ -80,15 +76,11 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
 
     const int power = std::pow(_base, pattern.length() - 1);
 
-    for (int i = 1; i < value.length(); i++) {
-        if (i <= value.length() - windowLength) {
-            int prevCharHash = hashedChar(value[i - 1]) * power % _mod;
-            int prevCharDifference = ((newHash - prevCharHash + _mod) * _base) % _mod;
-            newHash = (prevCharDifference + hashedChar(value[i + windowLength - 1])) % _mod;
-            hashComparisons.push_back(newHash);
-        } else {
-            break;
-        }
+    for (int i = 1; i <= value.length() - windowLength; i++) {
+        int prevCharHash = hashedChar(value[i - 1]) * power % _mod;
+        int prevCharDifference = ((newHash - prevCharHash + _mod) * _base) % _mod;
+        newHash = (prevCharDifference + hashedChar(value[i + windowLength - 1])) % _mod;
+        hashComparisons.push_back(newHash);
 
         if (newHash == targetHash) {
             std::string::const_iterator valuePosition = value.cbegin() + i;
