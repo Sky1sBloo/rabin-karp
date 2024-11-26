@@ -79,8 +79,8 @@ int main()
     std::cout << "Edge Case Test: Success\n" << "Starting test: Hash display comparisons..." << '\n';
 
     std::vector<int> hashComparisons;
-    const std::string text = "the quick brown fox";
-    const std::string pattern = "fox";
+    const std::string text = "SURPRISE";
+    const std::string pattern = "RIS";
     std::cout << "Hash comparison in text: \"" << text << "\", find \"" << pattern << "\"\n";
     const auto& it = patternFinder.getFirstInstanceOf(pattern, text, hashComparisons);
     int patternHash = patternFinder.rollingHash(pattern);

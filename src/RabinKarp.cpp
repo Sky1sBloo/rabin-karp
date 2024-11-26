@@ -1,5 +1,6 @@
 #include "RabinKarp.hpp"
 #include <cmath>
+#include <iostream>
 
 RabinKarp::RabinKarp(int base, int mod)
     : _base(base)
@@ -56,6 +57,7 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
     }
     return value.cend();
 }
+
 std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pattern, const std::string& value, std::vector<int>& hashComparisons) const
 {
     if (value.length() < pattern.length() || value.empty() || pattern.empty()) {
@@ -79,6 +81,7 @@ std::string::const_iterator RabinKarp::getFirstInstanceOf(const std::string& pat
     for (int i = 1; i <= value.length() - windowLength; i++) {
         int prevCharHash = hashedChar(value[i - 1]) * power % _mod;
         int prevCharDifference = ((newHash - prevCharHash + _mod) * _base) % _mod;
+        std::cout << newHash << " - " << prevCharHash << " + " << static_cast<int>(hashedChar(value[i+windowLength] - 1)) << " % " << _mod << " = " << (prevCharDifference + hashedChar(value[i + windowLength - 1])) % _mod << '\n';
         newHash = (prevCharDifference + hashedChar(value[i + windowLength - 1])) % _mod;
         hashComparisons.push_back(newHash);
 
